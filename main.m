@@ -99,10 +99,10 @@ pos_size = get(handles.figure1,'Position');
 user_response = modal_nuevoProyecto('Title','Nuevo proyecto');
 switch user_response
 case 'No'
-	% take no action
+    
 case 'Si'
-	% Prepare to close application window
-	delete(handles.figure1)
+	user_response2 = modal_dimensiones('Title','Dimensiones');
+    disp(user_response2.dimx)
 end
 
 % --- Executes on selection change in popupmenu1.
