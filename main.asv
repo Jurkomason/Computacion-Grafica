@@ -38,7 +38,8 @@ function main_OpeningFcn(hObject, eventdata, handles, varargin)
           0 0 0 1];
     dibujaTriedro(T0);
     view(30, 20);
-    
+
+
 % --- Outputs from this function are returned to the command line.
 function varargout = main_OutputFcn(hObject, eventdata, handles) 
     % varargout  cell array for returning output args (see VARARGOUT);
