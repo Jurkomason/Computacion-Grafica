@@ -63,11 +63,20 @@ function BEmpezar_Callback(hObject, eventdata, handles)
         dims = [1 35];
         definput = {'','',''};
         nuevas_dimensiones = inputdlg(prompt,title,dims,definput);
-
-        disp(nuevas_dimensiones{1,1});
-        xlim([0 str2double(nuevas_dimensiones{1,1})])
-        ylim([0 str2double(nuevas_dimensiones{2,1})])
-        zlim([0 str2double(nuevas_dimensiones{3,1})])
+        
+        xlim([0 str2double(nuevas_dimensiones{1,1})]);
+        ylim([0 str2double(nuevas_dimensiones{2,1})]);
+        zlim([0 str2double(nuevas_dimensiones{3,1})]);
+        
+        prompt = {'X','Y','Z'};
+        title = 'Divisiones';
+        dims = [1 35];
+        definput = {'','',''};
+        nuevas_divisiones = inputdlg(prompt,title,dims,definput);
+        
+        xticks(linspace(0,str2double(nuevas_dimensiones{1,1}),str2double(nuevas_divisiones{1,1})+1));
+        yticks(linspace(0,str2double(nuevas_dimensiones{2,1}),str2double(nuevas_divisiones{2,1})+1));
+        zticks(linspace(0,str2double(nuevas_dimensiones{3,1}),str2double(nuevas_divisiones{3,1})+1));
     end
 
 % --- Executes during object creation, after setting all properties.
@@ -80,6 +89,8 @@ function BCrear_Callback(hObject, eventdata, handles)
     % hObject    handle to BCrear (see GCBO)
     % eventdata  reserved - to be defined in a future version of MATLAB
     % handles    structure with handles and user data (see GUIDATA)
+    figura=get(handles.TiposFiguras,'SelectedObject');
+    disp(get(figura,'String'));
 
 function BGuardar_Callback(hObject, eventdata, handles)
     % hObject    handle to BGuardar (see GCBO)
