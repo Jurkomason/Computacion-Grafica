@@ -25,9 +25,9 @@ classdef Elemento1D < figuraGeometrica
                                       0 0 0 0 1 1 1 1
                                       1 1 1 1 1 1 1 1];
                               
-                obj.matrizTopologica=[2 2 4 4 6 6 1 7 2 2 3 5
-                                      1 3 3 5 5 7 2 2 4 6 1 1
-                                      3 4 5 6 7 8 7 8 6 8 5 7];
+                obj.matrizTopologica=[1 2 3 4 6 6 1 2 6 2 1 1
+                                      2 3 4 5 5 7 2 7 4 6 3 5
+                                      3 4 5 6 7 8 7 8 2 8 5 7];
                                   disp(size(obj.matrizGeometrica));
                 obj.graficar(obj.matrizGeometrica, obj.matrizTopologica);
                                   

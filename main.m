@@ -90,7 +90,13 @@ function BCrear_Callback(hObject, eventdata, handles)
     % eventdata  reserved - to be defined in a future version of MATLAB
     % handles    structure with handles and user data (see GUIDATA)
     figura=get(handles.TiposFiguras,'SelectedObject');
-    disp(get(figura,'String'));
+    switch get(figura,'string')
+       case 'Viga'
+          viga=Elemento1D('Rectangular');  
+          
+       otherwise
+            %No hace nada
+    end
 
 function BGuardar_Callback(hObject, eventdata, handles)
     % hObject    handle to BGuardar (see GCBO)

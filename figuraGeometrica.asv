@@ -1,13 +1,17 @@
 classdef (Abstract)figuraGeometrica
     
-    properties (Abstract)
+    properties(Abstract)
         matrizGeometrica
         matrizTopologica
     end
     
-    methods(Static)
+    methods
+        function obj = figuraGeometrica(matrizGeo,matrizTopo)
+         obj.matrizGeometrica = matrizGeo;
+         obj.matrizTopologica = matrizTopo;
+        end
+        
         function graficar(matGeo, matTopo)
-            matGeo(4,:)=[];
             matGeo=matGeo.';
             matTopo=matTopo.';
             
