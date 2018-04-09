@@ -24,6 +24,8 @@ classdef Elemento1D < figuraGeometrica
                                       3 4 5 6 7 8 7 8 6 8 5 7];
                                   disp(size(obj.matrizGeometrica));               
             end
+            
+           
         end
         
         function obj = set.matrizGeometrica(obj,matGeo) 

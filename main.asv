@@ -145,12 +145,68 @@ function BCrear_Callback(hObject, eventdata, handles)
           viga.matrizGeometrica=RotacionX(viga.matrizGeometrica,angulo); %Dilatacion
           p2=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica); 
                     
-          %pause(1);
-          %set(p2,'Visible','Off')
+          pause(1);
+          set(p2,'Visible','Off')
            
-          %viga.matrizGeometrica=TR*viga.matrizGeometrica; %Traslacion y rotacion
-          %viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
+          viga.matrizGeometrica=TR*viga.matrizGeometrica; %Traslacion y rotacion
+          viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
           
+        case 'Pared'
+            viga=Elemento1D('Rectangular');
+           p0=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
+          
+          prompt = {'X','Y','Z'};
+          title = 'Punto inicial';
+          dims = [1 35];
+          definput = {'','',''};
+          p1 = inputdlg(prompt,title,dims,definput);   
+          
+          prompt = {'X','Y','Z'};
+          title = 'Punto final';
+          dims = [1 35];
+          definput = {'','',''};
+          p2 = inputdlg(prompt,title,dims,definput); 
+          
+            prompt = {'Z'};
+          title = 'Altura';
+          dims = [1 35];
+          definput = {''};
+          a = inputdlg(prompt,title,dims,definput); 
+          
+          p1=str2num(cell2mat(p1));
+          p2=str2num(cell2mat(p2));
+          e1=(p2-p1)/norm(p2-p1);
+          p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
+          p1p3=(p3-p1);
+          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          e2=e2/norm(e2);
+          e3=cross(e1,e2);
+          
+          TR = [e1(1,1) e2(1,1) e3(1,1) p1(1,1)
+                e1(2,1) e2(2,1) e3(2,1) p1(2,1)
+                e1(3,1) e2(3,1) e3(3,1) p1(3,1)
+                0 0 0 1];
+            
+          dibujaTriedro(TR);
+          
+          set(p0,'Visible','Off')
+          
+          viga.matrizGeometrica=DilatacionX(viga.matrizGeometrica,norm(p1- p2)); %Dilatacion
+          p1=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica); 
+                    
+          pause(1);
+          set(p1,'Visible','Off')
+          
+          p2=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica); 
+                    
+          pause(1);
+          set(p2,'Visible','Off')
+           
+          viga.matrizGeometrica=TR*viga.matrizGeometrica; %Traslacion y rotacion
+          viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
+          
+          viga.matrizGeometrica=DilatacionZ(viga.matrizGeometrica,norm(p1- p2));
+            
        otherwise
             %No hace nada
     end
