@@ -145,11 +145,11 @@ function BCrear_Callback(hObject, eventdata, handles)
           viga.matrizGeometrica=RotacionX(viga.matrizGeometrica,angulo); %Dilatacion
           p2=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica); 
                     
-          pause(1);
-          set(p2,'Visible','Off')
+          %pause(1);
+          %set(p2,'Visible','Off')
            
-          viga.matrizGeometrica=TR*viga.matrizGeometrica; %Traslacion y rotacion
-          viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
+          %viga.matrizGeometrica=TR*viga.matrizGeometrica; %Traslacion y rotacion
+          %viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
           
        otherwise
             %No hace nada

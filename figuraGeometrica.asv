@@ -1,17 +1,13 @@
 classdef (Abstract)figuraGeometrica
     
-    properties(Abstract)
+    properties (Abstract)
         matrizGeometrica
         matrizTopologica
     end
     
-    methods
-        function obj = figuraGeometrica(matrizGeo,matrizTopo)
-         obj.matrizGeometrica = matrizGeo;
-         obj.matrizTopologica = matrizTopo;
-        end
-        
+    methods(Static)
         function graficar(matGeo, matTopo)
+            matGeo(4,:)=[];
             matGeo=matGeo.';
             matTopo=matTopo.';
             
@@ -22,6 +18,8 @@ classdef (Abstract)figuraGeometrica
             camlight; lighting phong
 
         end
+        
+        function obj = set.PropertyName(obj,value) 
     end
     
 end

@@ -6,7 +6,7 @@ classdef (Abstract)figuraGeometrica
     end
     
     methods(Static)
-        function graficar(matGeo, matTopo)
+        function p=graficar(matGeo, matTopo)
             matGeo(4,:)=[];
             matGeo=matGeo.';
             matTopo=matTopo.';
