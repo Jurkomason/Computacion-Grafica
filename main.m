@@ -152,8 +152,8 @@ function BCrear_Callback(hObject, eventdata, handles)
           viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
           
         case 'Pared'
-            viga=Elemento1D('Rectangular');
-           p0=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
+            pared=Elemento2D();
+           p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
           
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
@@ -180,6 +180,8 @@ function BCrear_Callback(hObject, eventdata, handles)
           a = inputdlg(prompt,title,dims,definput);
           
           p1=str2num(cell2mat(p1));
+          x=p1(1);
+          y=p1(2);
           p2=str2num(cell2mat(p2));
           a=str2num(cell2mat(a));
           g=str2num(cell2mat(g));
@@ -199,22 +201,24 @@ function BCrear_Callback(hObject, eventdata, handles)
           
           set(p0,'Visible','Off')
           
-          viga.matrizGeometrica=DilatacionX(viga.matrizGeometrica,norm(p1- p2)); %Dilatacion
-          p1=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica); 
+          pared.matrizGeometrica=DilatacionX(pared.matrizGeometrica,norm(p1- p2)); %Dilatacion
+          p1=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica); 
                     
           pause(1);
           set(p1,'Visible','Off')
           
-          p2=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica); 
+          p2=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica); 
                     
           pause(1);
           set(p2,'Visible','Off')
            
-          viga.matrizGeometrica=TR*viga.matrizGeometrica; %Traslacion y rotacion
-          viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
+          pared.matrizGeometrica=TR*pared.matrizGeometrica; %Traslacion y rotacion
+          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
           
-          viga.matrizGeometrica=DilatacionZ(viga.matrizGeometrica,a);
-          viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
+          pared.matrizGeometrica=DilatacionZ(pared.matrizGeometrica,a);
+          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
+          pared.matrizGeometrica=Grosor(pared.matrizGeometrica,g,x,y);
+          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
           
           
             
