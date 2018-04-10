@@ -25,6 +25,7 @@ classdef Elemento2D < figuraGeometrica
            
     end
     
+    
     end
 end
 
