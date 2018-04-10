@@ -220,9 +220,9 @@ function BCrear_Callback(hObject, eventdata, handles)
           pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
           
       case 'Puerta'
-          puerta=FiguraCompleja();  
-          p0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
-          
+          puerta=FiguraCompleja('Puerta');  
+          pp0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
+          pp0.FaceColor = rgb('Sienna');
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
           dims = [1 35];
@@ -242,7 +242,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           
           %puerta.matrizGeometrica=Traslacion(puerta.matrizGeometrica,inicioPuerta(1,1),inicioPuerta(2,1),inicioPuerta(3,1));
           pause(1);
-          set(p0,'Visible','Off');
+          set(pp0,'Visible','Off');
           
           e1=(finPuerta-inicioPuerta)/norm(finPuerta-inicioPuerta);
           p3=[inicioPuerta(1,1);inicioPuerta(2,1)+3;inicioPuerta(3,1)];
@@ -256,8 +256,47 @@ function BCrear_Callback(hObject, eventdata, handles)
                 e1(3,1) e2(3,1) e3(3,1) inicioPuerta(3,1)
                 0 0 0 1];
           puerta.matrizGeometrica= TR*puerta.matrizGeometrica;
-          p1=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
-            
+          pp1=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
+          pp1.FaceColor = rgb('Sienna');
+       case 'Ventana'
+          puerta=FiguraCompleja('Ventana');  
+          pv0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
+          pv0.FaceColor = rgb('SteelBlue');
+          prompt = {'X','Y','Z'};
+          title = 'Punto inicial';
+          dims = [1 35];
+          definput = {'','',''};
+          inicioPuerta = inputdlg(prompt,title,dims,definput);   
+          
+          prompt = {'X','Y','Z'};
+          title = 'Punto final';
+          dims = [1 35];
+          definput = {'','',''};
+          finPuerta = inputdlg(prompt,title,dims,definput); 
+          
+          inicioPuerta=str2num(cell2mat(inicioPuerta));
+          finPuerta=str2num(cell2mat(finPuerta));
+          dil=norm(finPuerta-inicioPuerta);
+          puerta.matrizGeometrica=Dilatacion(puerta.matrizGeometrica,dil,dil,dil);
+          
+          %puerta.matrizGeometrica=Traslacion(puerta.matrizGeometrica,inicioPuerta(1,1),inicioPuerta(2,1),inicioPuerta(3,1));
+          pause(1);
+          set(pv0,'Visible','Off');
+          
+          e1=(finPuerta-inicioPuerta)/norm(finPuerta-inicioPuerta);
+          p3=[inicioPuerta(1,1);inicioPuerta(2,1)+3;inicioPuerta(3,1)];
+          p1p3=(p3-inicioPuerta);
+          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          e2=e2/norm(e2);
+          e3=cross(e1,e2);
+          
+          TR = [e1(1,1) e2(1,1) e3(1,1) inicioPuerta(1,1)
+                e1(2,1) e2(2,1) e3(2,1) inicioPuerta(2,1)
+                e1(3,1) e2(3,1) e3(3,1) inicioPuerta(3,1)
+                0 0 0 1];
+          puerta.matrizGeometrica= TR*puerta.matrizGeometrica;
+          pv1=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
+          pv1.FaceColor = rgb('SteelBlue');
        otherwise
             %No hace nada
     end
