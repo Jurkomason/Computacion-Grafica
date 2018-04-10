@@ -133,7 +133,7 @@ function BCrear_Callback(hObject, eventdata, handles)
             
           dibujaTriedro(TR);
           
-          set(p0,'Visible','Off')
+          set(p0,'Visible','Off');
           
           viga.matrizGeometrica=DilatacionX(viga.matrizGeometrica,norm(p1- p2)); %Dilatacion
           p1=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica); 
@@ -152,7 +152,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
           
         case 'Pared'
-            pared=Elemento2D();
+           pared=Elemento2D();
            p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
           
           prompt = {'X','Y','Z'};
@@ -221,8 +221,42 @@ function BCrear_Callback(hObject, eventdata, handles)
           
       case 'Puerta'
           puerta=FiguraCompleja();  
-          p0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);   
+          p0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
           
+          prompt = {'X','Y','Z'};
+          title = 'Punto inicial';
+          dims = [1 35];
+          definput = {'','',''};
+          inicioPuerta = inputdlg(prompt,title,dims,definput);   
+          
+          prompt = {'X','Y','Z'};
+          title = 'Punto final';
+          dims = [1 35];
+          definput = {'','',''};
+          finPuerta = inputdlg(prompt,title,dims,definput); 
+          
+          inicioPuerta=str2num(cell2mat(inicioPuerta));
+          finPuerta=str2num(cell2mat(finPuerta));
+          dil=norm(finPuerta-inicioPuerta);
+          puerta.matrizGeometrica=Dilatacion(puerta.matrizGeometrica,dil,dil,dil);
+          
+          %puerta.matrizGeometrica=Traslacion(puerta.matrizGeometrica,inicioPuerta(1,1),inicioPuerta(2,1),inicioPuerta(3,1));
+          pause(1);
+          set(p0,'Visible','Off');
+          
+          e1=(finPuerta-inicioPuerta)/norm(finPuerta-inicioPuerta);
+          p3=[inicioPuerta(1,1);inicioPuerta(2,1)+3;inicioPuerta(3,1)];
+          p1p3=(p3-inicioPuerta);
+          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          e2=e2/norm(e2);
+          e3=cross(e1,e2);
+          
+          TR = [e1(1,1) e2(1,1) e3(1,1) inicioPuerta(1,1)
+                e1(2,1) e2(2,1) e3(2,1) inicioPuerta(2,1)
+                e1(3,1) e2(3,1) e3(3,1) inicioPuerta(3,1)
+                0 0 0 1];
+          puerta.matrizGeometrica= TR*puerta.matrizGeometrica;
+          p1=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
             
        otherwise
             %No hace nada

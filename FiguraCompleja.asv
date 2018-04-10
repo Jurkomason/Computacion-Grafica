@@ -20,11 +20,9 @@ classdef FiguraCompleja < figuraGeometrica
             f=length(fv.faces);
             fv.vertices=[fv.vertices; ones(1,v)];
             %fv.faces=[fv.faces; ones(1,f)];
-            minX=min(fv.vertices(1,:));
-            minY=min(fv.vertices(2,:));
-            fv.vertices=Traslacion(fv.vertices,-minX,-minY,0);
-            maxX=max(fv.vertices(1,:));
-            fv.vertices=Dilatacion(fv.vertices,1/maxX,1/maxX,1/maxX);
+            minX=min(puerta.matrizGeometrica(1,:));
+            minY=min(puerta.matrizGeometrica(2,:));
+            puerta.matrizGeometrica=
             obj.matrizGeometrica=fv.vertices;
             obj.matrizTopologica=fv.faces;
             

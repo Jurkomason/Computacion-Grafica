@@ -133,7 +133,7 @@ function BCrear_Callback(hObject, eventdata, handles)
             
           dibujaTriedro(TR);
           
-          set(p0,'Visible','Off')
+          set(p0,'Visible','Off');
           
           viga.matrizGeometrica=DilatacionX(viga.matrizGeometrica,norm(p1- p2)); %Dilatacion
           p1=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica); 
@@ -152,7 +152,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
           
         case 'Pared'
-            pared=Elemento2D();
+           pared=Elemento2D();
            p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
           
           prompt = {'X','Y','Z'};
@@ -214,14 +214,35 @@ function BCrear_Callback(hObject, eventdata, handles)
            
           pared.matrizGeometrica=TR*pared.matrizGeometrica; %Traslacion y rotacion
           pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
+          pared.matrizGeometrica=DilatacionZ(pared.matrizGeometrica,a);
+          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
+          pared.matrizGeometrica=Grosor(pared.matrizGeometrica,g,x,y);
+          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica);
           
-          viga.matrizGeometrica=DilatacionZ(viga.matrizGeometrica,a);
-          viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
-          disp(viga.matrizGeometrica);
-          viga.matrizGeometrica=Grosor(viga.matrizGeometrica,g,x,y);
-          viga.graficar(viga.matrizGeometrica,viga.matrizTopologica);
+      case 'Puerta'
+          puerta=FiguraCompleja();  
+          p0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
           
+          prompt = {'X','Y','Z'};
+          title = 'Punto inicial';
+          dims = [1 35];
+          definput = {'','',''};
+          inicioPuerta = inputdlg(prompt,title,dims,definput);   
           
+          prompt = {'X','Y','Z'};
+          title = 'Punto final';
+          dims = [1 35];
+          definput = {'','',''};
+          finPuerta = inputdlg(prompt,title,dims,definput); 
+          
+          inicioPuerta=str2num(cell2mat(inicioPuerta));
+          finPuerta=str2num(cell2mat(finPuerta));
+          dil=norm(finPuerta-inicioPuerta);
+          puerta.matrizGeometrica=Dilatacion(puerta.matrizGeometrica,dil,dil,dil);
+          
+          pause(1);
+          set(p0,'Visible','Off');
+          p1=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
             
        otherwise
             %No hace nada
