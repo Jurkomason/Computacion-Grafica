@@ -221,7 +221,6 @@ function BCrear_Callback(hObject, eventdata, handles)
           
       case 'Puerta'
           puerta=FiguraCompleja();  
-          disp(size(puerta.matrizGeometrica));
           p0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);   
           
             
