@@ -343,3 +343,10 @@ function BAbrir_Callback(hObject, eventdata, handles)
     % hObject    handle to BAbrir (see GCBO)
     % eventdata  reserved - to be defined in a future version of MATLAB
     % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in BGenerar.
+function BGenerar_Callback(hObject, eventdata, handles)
+% hObject    handle to BGenerar (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
