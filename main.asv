@@ -241,17 +241,17 @@ function BCrear_Callback(hObject, eventdata, handles)
           
           
           pared.matrizGeometrica=Traslacion(pared.matrizGeometrica,p11,p12,p13);
-          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('Gray'));
+          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('MediumBlue'));
               
            case 'Piso'
            piso=Elemento2D();
-           p0=piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Gray'));
+           %p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('HotPink'));
           
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
           dims = [1 50];
           definput = {'','',''};
-          p1 = inputdlg(prompt,title,dims,definput);   
+          p1 = inputdlg(prompt,title,dims,definput);
           
           prompt = {'X','Y','Z'};
           title = 'Punto final';
@@ -259,64 +259,48 @@ function BCrear_Callback(hObject, eventdata, handles)
           definput = {'','',''};
           p2 = inputdlg(prompt,title,dims,definput); 
           
-            prompt = {'Grosor'};
-          title = 'Grosor';
-          dims = [1 50];
-          definput = {''};
-          g = inputdlg(prompt,title,dims,definput); 
-          
-          prompt = {'Y'};
+          prompt = {'Largo'};
           title = 'Largo';
           dims = [1 50];
           definput = {''};
           a = inputdlg(prompt,title,dims,definput);
           
-          p1=str2num(cell2mat(p1));
-          x=p2(1);
-          y=p2(2);
-           x=str2num(cell2mat(x));
-            y=str2num(cell2mat(y));
-          p2=str2num(cell2mat(p2));
-          a=str2num(cell2mat(a));
-          g=str2num(cell2mat(g));
-          e1=(p2-p1)/norm(p2-p1);
-          p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
-          p1p3=(p3-p1);
-          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
-          e2=e2/norm(e2);
-          e3=cross(e1,e2);
+          prompt = {'Grosor'};
+          title = 'Grosor';
+          dims = [1 50];
+          definput = {''};
+          g = inputdlg(prompt,title,dims,definput); 
           
-          TR = [e1(1,1) e2(1,1) e3(1,1) p1(1,1)
-                e1(2,1) e2(2,1) e3(2,1) p1(2,1)
-                e1(3,1) e2(3,1) e3(3,1) p1(3,1)
-                0 0 0 1];
-            
-          dibujaTriedro(TR);
+          p11=str2double(cell2mat(p1(1)));
+          p21=str2double(cell2mat(p2(1)));
+          p12=str2double(cell2mat(p1(2)));
+          p22=str2double(cell2mat(p2(2)));
+          p13=str2double(cell2mat(p1(3)));
+          p23=str2double(cell2mat(p2(3)));
           
-          set(p0,'Visible','Off')
+          x=p21-p11;
+          y=p22-p12;
+          z=p23-p13;
+                   
+          g=str2double(cell2mat(g));
+          a=str2double(cell2mat(a));
           
-          piso.matrizGeometrica=DilatacionX(piso.matrizGeometrica,norm(p1- p2)); %Dilatacion
-          disp(piso.matrizGeometrica);
-          p1=piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Gray')); 
-                    
-          pause(1);
-          set(p1,'Visible','Off')
+          if(x<y)
+             piso.matrizGeometrica=DilatacionX(piso.matrizGeometrica,a); 
+             piso.matrizGeometrica=DilatacionY(piso.matrizGeometrica,y);
+             %pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('Gray'));
+          end
+          if(x>y)
+             piso.matrizGeometrica=DilatacionY(piso.matrizGeometrica,a); 
+             piso.matrizGeometrica=DilatacionX(piso.matrizGeometrica,x);
+             %pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('Gray'));
+          end
           
-          p2=piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Gray')); 
-                    
-          pause(1);
-          set(p2,'Visible','Off')
-           
-          piso.matrizGeometrica=TR*piso.matrizGeometrica; %Traslacion y rotacion
-          disp(piso.matrizGeometrica);
-          %piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('HotPink'));
-          piso.matrizGeometrica=DilatacionY(piso.matrizGeometrica,a);
-          disp(piso.matrizGeometrica);
-         % piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('HotPink'));
-          disp(piso.matrizGeometrica);
-          piso.matrizGeometrica=GrosorZ(piso.matrizGeometrica,g);
-          disp(piso.matrizGeometrica);
-          piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Gray'));
+          piso.matrizGeometrica=DilatacionZ(piso.matrizGeometrica,g);
+          
+          
+          piso.matrizGeometrica=Traslacion(piso.matrizGeometrica,p11,p12,p13);
+          piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Orange'));
           
       case 'Puerta'
           puerta=FiguraCompleja('Puerta');  

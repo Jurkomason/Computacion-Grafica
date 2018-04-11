@@ -241,7 +241,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           
           
           pared.matrizGeometrica=Traslacion(pared.matrizGeometrica,p11,p12,p13);
-          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('DarkCyan'));
+          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('MediumBlue'));
               
            case 'Piso'
            piso=Elemento2D();
@@ -300,11 +300,11 @@ function BCrear_Callback(hObject, eventdata, handles)
           
           
           piso.matrizGeometrica=Traslacion(piso.matrizGeometrica,p11,p12,p13);
-          piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Gray'));
+          piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Orange'));
           
       case 'Puerta'
           puerta=FiguraCompleja('Puerta');  
-          pp0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
+          %pp0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
           pp0.FaceColor = rgb('Sienna');
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
