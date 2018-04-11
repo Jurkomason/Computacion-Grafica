@@ -33,7 +33,8 @@ classdef FiguraCompleja < figuraGeometrica
                 minY=min(fv.vertices(2,:));
                 fv.vertices=Traslacion(fv.vertices,-minX,-minY,0);
                 maxX=max(fv.vertices(1,:));
-                fv.vertices=Dilatacion(fv.vertices,1/maxX,1/maxX,1/maxX);
+                maxZ=max(fv.vertices(3,:));
+                fv.vertices=Dilatacion(fv.vertices,1/maxX,1/maxX,1/maxZ);
                 obj.matrizGeometrica=fv.vertices;
                 obj.matrizTopologica=fv.faces;
 
