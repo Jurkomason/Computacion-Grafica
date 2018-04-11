@@ -34,7 +34,24 @@ classdef Elemento1D < figuraGeometrica
         
         function mg = get.matrizGeometrica(obj)
              mg = obj.matrizGeometrica;
-          end
+        end
+        
+        function obj = set.base(obj,base) 
+            obj.base=base;
+        end
+        
+        function ba = get.base(obj)
+             ba = obj.base;
+        end
+        
+        function obj = set.altura(obj,altura) 
+            obj.altura=altura;
+        end
+        
+        function al = get.altura(obj)
+             al = obj.altura;
+        end
+
 
     end
     

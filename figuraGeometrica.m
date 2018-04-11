@@ -6,13 +6,13 @@ classdef (Abstract)figuraGeometrica
     end
     
     methods(Static)
-        function p=graficar(matGeo, matTopo)
+        function p=graficar(matGeo, matTopo,color)
             matGeo(4,:)=[];
             matGeo=matGeo.';
             matTopo=matTopo.';
             
             p = patch('Faces',matTopo,'Vertices',matGeo);
-            set(p, 'FaceColor', 'red', 'EdgeColor', 'none');
+            set(p, 'FaceColor',color, 'EdgeColor', 'none');
             daspect([1 1 1]);
 
             camlight; lighting phong
