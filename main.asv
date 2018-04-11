@@ -106,24 +106,15 @@ function BCrear_Callback(hObject, eventdata, handles)
           
           %Crea viga segun tipo de seccion
           switch tipoSeccion(1,1)
-              case 'R'
-                  viga=Elemento1D('Rectangular');
-                  
-                  %Define ancho y alto de seccion
-                  prompt = {'Ancho','Alto'};
-                  title = 'Ancho y alto de seccion';
-                  dims = [1 50];
-                  definput = {'',''};
-                  seccion = inputdlg(prompt,title,dims,definput);
-                  seccion=str2num(cell2mat(seccion));
-                  viga.base=seccion(1,1);
-                  viga.altura=seccion(2,1);
               case 'C'
                   viga=Elemento1D('Circular');  
                   
               otherwise
                   viga=Elemento1D('Rectangular');
                   
+                  %Grafica posicion estandar
+                  p0=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
+                  
                   %Define ancho y alto de seccion
                   prompt = {'Ancho','Alto'};
                   title = 'Ancho y alto de seccion';
@@ -133,12 +124,11 @@ function BCrear_Callback(hObject, eventdata, handles)
                   seccion=str2num(cell2mat(seccion));
                   viga.base=seccion(1,1);
                   viga.altura=seccion(2,1);
-                  disp(viga.base);
-                  disp(viga.altura);
+                  
+                  %Dilatacion en Y y Z segun ancho y alto
+                  viga.matrizGeometrica=Dilatacion(viga.matrizGeometrica,1,viga.base,viga.altura); 
+                  p1=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
           end
-          
-          %Grafica posicion estandar
-          p0=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
           
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
@@ -179,7 +169,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           set(p0,'Visible','Off');
           
           %Dilatacion en X segun p1 y p2
-          viga.matrizGeometrica=Dilatacion(viga.matrizGeometrica,norm(p1- p2),0,0); 
+          viga.matrizGeometrica=Dilatacion(viga.matrizGeometrica,norm(p1- p2),viga.base,viga.altura); 
           p1=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
                     
           pause(1);

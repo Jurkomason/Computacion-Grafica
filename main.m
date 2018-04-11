@@ -113,7 +113,7 @@ function BCrear_Callback(hObject, eventdata, handles)
                   viga=Elemento1D('Rectangular');
                   
                   %Grafica posicion estandar
-                  p0=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
+                  g0=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
                   
                   %Define ancho y alto de seccion
                   prompt = {'Ancho','Alto'};
@@ -124,21 +124,31 @@ function BCrear_Callback(hObject, eventdata, handles)
                   seccion=str2num(cell2mat(seccion));
                   viga.base=seccion(1,1);
                   viga.altura=seccion(2,1);
-                  disp(viga.base);
-                  disp(viga.altura);
+                  
+                  %Dilatacion en Y y Z segun ancho y alto
+                  set(g0,'Visible','Off');
+                  viga.matrizGeometrica=Dilatacion(viga.matrizGeometrica,1,viga.base,viga.altura); 
+                  g1=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
           end
           
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
           dims = [1 50];
           definput = {'','',''};
-          p1 = inputdlg(prompt,title,dims,definput);   
-          
+          p1 = inputdlg(prompt,title,dims,definput);
+          p1=str2num(cell2mat(p1));
+                    
           prompt = {'X','Y','Z'};
           title = 'Punto final';
           dims = [1 50];
           definput = {'','',''};
-          p2 = inputdlg(prompt,title,dims,definput); 
+          p2 = inputdlg(prompt,title,dims,definput);
+          p2=str2num(cell2mat(p2));
+
+          %Dilatacion en X segun p1 y p2
+          set(g1,'Visible','Off');
+          viga.matrizGeometrica=Dilatacion(viga.matrizGeometrica,norm(p1- p2),1,1); 
+          g2=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
           
           prompt = {'Y','Z'};
           title = 'Orientacion';
@@ -147,8 +157,6 @@ function BCrear_Callback(hObject, eventdata, handles)
           orientacion = inputdlg(prompt,title,dims,definput);
           orientacion=str2num(cell2mat(orientacion));
           
-          p1=str2num(cell2mat(p1));
-          p2=str2num(cell2mat(p2));
           e1=(p2-p1)/norm(p2-p1);
           p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
           p1p3=(p3-p1);
@@ -162,28 +170,19 @@ function BCrear_Callback(hObject, eventdata, handles)
                 0 0 0 1];
             
           dibujaTriedro(TR);
-          
-          %Oculta estandar
-          set(p0,'Visible','Off');
-          
-          %Dilatacion en X segun p1 y p2
-          viga.matrizGeometrica=Dilatacion(viga.matrizGeometrica,norm(p1- p2),viga.base,viga.altura); 
-          p1=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
-                    
-          pause(1);
-          set(p1,'Visible','Off')
-          
+     
           %Rotacion segun orientacion
+          set(g2,'Visible','Off');
           angulo=atan(-orientacion(1,1)/orientacion(2,1));
           viga.matrizGeometrica=RotacionX(viga.matrizGeometrica,angulo); 
-          p2=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
+         g3=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
                     
           pause(1);
-          set(p2,'Visible','Off')
+          set(g3,'Visible','Off')
            
           %Traslacion y rotacion final
           viga.matrizGeometrica=TR*viga.matrizGeometrica; 
-          viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
+          g4=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
           
         case 'Pared'
            pared=Elemento2D();
