@@ -261,7 +261,7 @@ function BCrear_Callback(hObject, eventdata, handles)
        case 'Piso'
 
            piso=Elemento2D();
-           p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('Orange'));
+           p0=piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Orange'));
           
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
