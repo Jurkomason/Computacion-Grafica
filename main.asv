@@ -525,24 +525,9 @@ function BTemblor_Callback(hObject, eventdata, handles)
                   graficasParedes=[graficasParedes p];
                   
               end
-              
-              tamGraficasVigas=size(graficasVigas);
-              for k=1:tamGraficasVigas(1,2)
-                  pause(0.0001);
-                  set(graficasVigas(k),'Visible','Off');
-              end
-              graficasVigas=[];
-              
-              tamGraficasPisos=size(graficasPisos);
-              for k=1:tamGraficasPisos(1,2)
-                  pause(0.0001);
-                  set(graficasPisos(k),'Visible','Off');
-              end
-              graficasPisos=[];
-              
               tamGraficasParedes=size(graficasParedes);
               for k=1:tamGraficasParedes(1,2)
-                  pause(0.0001);
+                  pause(0.001);
                   set(graficasParedes(k),'Visible','Off');
               end
               graficasParedes=[];
