@@ -121,7 +121,7 @@ function BCrear_Callback(hObject, eventdata, handles)
                   dims = [1 50];
                   definput = {'',''};
                   seccion = inputdlg(prompt,title,dims,definput);
-                  seccion=str2num(cell2mat(seccion));
+                  seccion=str2num(cell2mat(seccion))
                   viga.base=seccion(1,1);
                   viga.altura=seccion(2,1);
                   
