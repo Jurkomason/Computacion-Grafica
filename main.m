@@ -422,3 +422,77 @@ function BGenerar_Callback(hObject, eventdata, handles)
 % hObject    handle to BGenerar (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+ plano=get(handles.gProyecciones,'SelectedObject');
+    
+    switch get(plano,'string')
+       
+       case 'XY'
+          vigas=getGlobalViga;
+          pisos=getGlobalPiso;
+          paredes=getGlobalPared;
+          matrizT=[1 0 0 0; 0 1 0 0; 0 0 0 0; 1 1 1 1];
+          sVi=size(vigas);
+          sPi=size(pisos);
+          sPa=size(paredes);
+          figure;
+          for i=1:sVi(1,1)
+              x=matrizT*vigas(i).matrizGeometrica;
+              vigas(i).graficar(x,vigas(i).matrizTopologica, rgb('LimeGreen'));
+          end
+          for j=1:sPi(1,1)
+              y=matrizT*pisos(i).matrizGeometrica;
+              pisos(i).graficar(y,pisos(i).matrizTopologica, rgb('Orange'));
+          end
+          for k=1:sPa(1,1)
+              z=matrizT*paredes(i).matrizGeometrica;
+              paredes(i).graficar(z,paredes(i).matrizTopologica, rgb('MediumBlue'));
+          end
+          
+       case 'YZ'
+          vigas=getGlobalViga;
+          pisos=getGlobalPiso;
+          paredes=getGlobalPared;
+          matrizT=[0 0 0 0; 0 1 0 0; 0 0 1 0; 1 1 1 1];
+          sVi=size(vigas);
+          sPi=size(pisos);
+          sPa=size(paredes);
+          figure;
+          for i=1:sVi(1,1)
+              x=matrizT*vigas(i).matrizGeometrica;
+              vigas(i).graficar(x,vigas(i).matrizTopologica, rgb('LimeGreen'));
+          end
+          for j=1:sPi(1,1)
+              y=matrizT*pisos(i).matrizGeometrica;
+              pisos(i).graficar(y,pisos(i).matrizTopologica, rgb('Orange'));
+          end
+          for k=1:sPa(1,1)
+              z=matrizT*paredes(i).matrizGeometrica;
+              paredes(i).graficar(z,paredes(i).matrizTopologica, rgb('MediumBlue'));
+          end
+           
+       case 'ZX'
+          vigas=getGlobalViga;
+          pisos=getGlobalPiso;
+          paredes=getGlobalPared;
+          matrizT=[1 0 0 0; 0 0 0 0; 0 0 1 0; 1 1 1 1];
+          sVi=size(vigas);
+          sPi=size(pisos);
+          sPa=size(paredes);
+          figure;
+          for i=1:sVi(1,1)
+              x=matrizT*vigas(i).matrizGeometrica;
+              vigas(i).graficar(x,vigas(i).matrizTopologica, rgb('LimeGreen'));
+          end
+          for j=1:sPi(1,1)
+              y=matrizT*pisos(i).matrizGeometrica;
+              pisos(i).graficar(y,pisos(i).matrizTopologica, rgb('Orange'));
+          end
+          for k=1:sPa(1,1)
+              z=matrizT*paredes(i).matrizGeometrica;
+              paredes(i).graficar(z,paredes(i).matrizTopologica, rgb('MediumBlue'));
+          end          
+          
+          
+
+    end
+
