@@ -184,63 +184,70 @@ function BCrear_Callback(hObject, eventdata, handles)
           g4=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
           
         case 'Pared'
-           pared=Elemento2D();
-           %p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('HotPink'));
-          
+          pared=Elemento2D();
+           %p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('HotPink')); 
+          %pp0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
+          %pp0.FaceColor = rgb('Sienna');
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
           dims = [1 50];
           definput = {'','',''};
-          p1 = inputdlg(prompt,title,dims,definput);
+          inicioPared = inputdlg(prompt,title,dims,definput);
+          inicioPared=[str2double(cell2mat(inicioPared(1,1)));str2double(cell2mat(inicioPared(2,1)));str2double(cell2mat(inicioPared(3,1)))];
           
           prompt = {'X','Y','Z'};
           title = 'Punto final';
           dims = [1 50];
           definput = {'','',''};
-          p2 = inputdlg(prompt,title,dims,definput); 
+          finPared = inputdlg(prompt,title,dims,definput);
+          finPared=[str2double(cell2mat(finPared(1,1)));str2double(cell2mat(finPared(2,1)));str2double(cell2mat(finPared(3,1)))];
           
-          prompt = {'Altura'};
+          prompt = {'Z'};
           title = 'Altura';
           dims = [1 50];
           definput = {''};
-          a = inputdlg(prompt,title,dims,definput);
+          altura = inputdlg(prompt,title,dims,definput);
+          altura=str2double(cell2mat(altura(1,1)));
           
           prompt = {'Grosor'};
           title = 'Grosor';
           dims = [1 50];
           definput = {''};
-          g = inputdlg(prompt,title,dims,definput); 
+          grosor = inputdlg(prompt,title,dims,definput);
+          grosor=str2double(cell2mat(grosor(1,1)));
           
-          p11=str2double(cell2mat(p1(1)));
-          p21=str2double(cell2mat(p2(1)));
-          p12=str2double(cell2mat(p1(2)));
-          p22=str2double(cell2mat(p2(2)));
-          p13=str2double(cell2mat(p1(3)));
-          p23=str2double(cell2mat(p2(3)));
+          x=finPared(1,1)-inicioPared(1,1);
+          y=finPared(2,1)-inicioPared(2,1);
           
-          x=p21-p11;
-          y=p22-p12;
-          z=p23-p13;
-                   
-          g=str2double(cell2mat(g));
-          a=str2double(cell2mat(a));
-          
-          if(x<y)
-             pared.matrizGeometrica=DilatacionX(pared.matrizGeometrica,g); 
-             pared.matrizGeometrica=DilatacionY(pared.matrizGeometrica,y);
+          dil=norm(finPared-inicioPared);
+          if(x<=y)
+             pared.matrizGeometrica=Dilatacion(pared.matrizGeometrica,dil,grosor,altura);
              %pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('Gray'));
           end
           if(x>y)
-             pared.matrizGeometrica=DilatacionY(pared.matrizGeometrica,g); 
-             pared.matrizGeometrica=DilatacionX(pared.matrizGeometrica,x);
+             pared.matrizGeometrica=Dilatacion(pared.matrizGeometrica,grosor,dil,altura);
              %pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('Gray'));
           end
           
-          pared.matrizGeometrica=DilatacionZ(pared.matrizGeometrica,a);
           
+          %puerta.matrizGeometrica=Traslacion(puerta.matrizGeometrica,inicioPuerta(1,1),inicioPuerta(2,1),inicioPuerta(3,1));
+          pause(1);
+    
           
-          pared.matrizGeometrica=Traslacion(pared.matrizGeometrica,p11,p12,p13);
-          pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('MediumBlue'));
+          e1=(finPared-inicioPared)/norm(finPared-inicioPared);
+          p3=[inicioPared(1,1);inicioPared(2,1)+3;inicioPared(3,1)];
+          p1p3=(p3-inicioPared);
+          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          e2=e2/norm(e2);
+          e3=cross(e1,e2);
+          
+          TR = [e1(1,1) e2(1,1) e3(1,1) inicioPared(1,1)
+                e1(2,1) e2(2,1) e3(2,1) inicioPared(2,1)
+                e1(3,1) e2(3,1) e3(3,1) inicioPared(3,1)
+                0 0 0 1];
+          pared.matrizGeometrica= TR*pared.matrizGeometrica;
+          pp1=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('MediumBlue'));  
+         
               
            case 'Piso'
            piso=Elemento2D();
