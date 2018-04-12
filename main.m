@@ -25,7 +25,7 @@ function main_OpeningFcn(hObject, eventdata, handles, varargin)
     % eventdata  reserved - to be defined in a future version of MATLAB
     % handles    structure with handles and user data (see GUIDATA)
     % varargin   command line arguments to main (see VARARGIN)
-
+    setGlobalFormas=[];
     % Choose default command line output for main
     handles.output = hObject;
 
@@ -53,8 +53,9 @@ function varargout = main_OutputFcn(hObject, eventdata, handles)
     varargout{1} = handles.output;
 
 function BEmpezar_Callback(hObject, eventdata, handles)
+    setGlobalFormas=[];
     pos_size = get(handles.figure1,'Position');
-
+    
     % Call modaldlg with the argument 'Position'.
     user_response = modal_nuevoProyecto('Title','Nuevo proyecto');
     switch user_response
@@ -93,8 +94,9 @@ function BCrear_Callback(hObject, eventdata, handles)
     % eventdata  reserved - to be defined in a future version of MATLAB
     % handles    structure with handles and user data (see GUIDATA)
     figura=get(handles.TiposFiguras,'SelectedObject');
+    
     switch get(figura,'string')
-        
+       
        case 'Viga'
           %Pregunta tipo de seccion
           prompt = {'R: Rectangular, C: Circular'};
@@ -111,7 +113,6 @@ function BCrear_Callback(hObject, eventdata, handles)
                   
               otherwise
                   viga=Elemento1D('Rectangular');
-                  
                   %Grafica posicion estandar
                   g0=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
                   
@@ -183,7 +184,9 @@ function BCrear_Callback(hObject, eventdata, handles)
           %Traslacion y rotacion final
           viga.matrizGeometrica=TR*viga.matrizGeometrica; 
           g4=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen'));
-          
+          vigas=getGlobalViga();
+          vigas=[vigas; viga];
+          setGlobalViga(vigas)
         case 'Pared'
            pared=Elemento2D();
            %p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('HotPink'));
@@ -242,8 +245,10 @@ function BCrear_Callback(hObject, eventdata, handles)
           
           pared.matrizGeometrica=Traslacion(pared.matrizGeometrica,p11,p12,p13);
           pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('MediumBlue'));
-              
-           case 'Piso'
+          paredes=getGlobalPared();
+          paredes=[paredes; pared];
+          setGlobalPared(paredes)   
+       case 'Piso'
            piso=Elemento2D();
            %p0=pared.graficar(pared.matrizGeometrica,pared.matrizTopologica,rgb('HotPink'));
           
@@ -301,10 +306,12 @@ function BCrear_Callback(hObject, eventdata, handles)
           
           piso.matrizGeometrica=Traslacion(piso.matrizGeometrica,p11,p12,p13);
           piso.graficar(piso.matrizGeometrica,piso.matrizTopologica,rgb('Orange'));
-          
+          pisos=getGlobalPiso();
+          pisos=[pisos; piso];
+          setGlobalPiso(pisos)
       case 'Puerta'
           puerta=FiguraCompleja('Puerta');  
-          %pp0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
+          pp0=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
           pp0.FaceColor = rgb('Sienna');
           prompt = {'X','Y','Z'};
           title = 'Punto inicial';
@@ -348,6 +355,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           puerta.matrizGeometrica= TR*puerta.matrizGeometrica;
           pp1=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
           pp1.FaceColor = rgb('Sienna');
+
        case 'Ventana'
           ventana=FiguraCompleja('Ventana');  
           pv0=ventana.graficar(ventana.matrizGeometrica,ventana.matrizTopologica);  
@@ -375,7 +383,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           altura=str2num(cell2mat(altura));
           dil=norm(finVentana-inicioVentana);
           ventana.matrizGeometrica=Dilatacion(ventana.matrizGeometrica,dil,dil,altura);
-%           puerta.matrizGeometrica=Dilatacion(puerta.matrizGeometrica,0,0,altura);
+%         puerta.matrizGeometrica=Dilatacion(puerta.matrizGeometrica,0,0,altura);
           
           pause(1);
           set(pv0,'Visible','Off');
@@ -394,6 +402,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           ventana.matrizGeometrica= TR*ventana.matrizGeometrica;
           pv1=ventana.graficar(ventana.matrizGeometrica,ventana.matrizTopologica);  
           pv1.FaceColor = rgb('SteelBlue');
+
        otherwise
             %No hace nada
     end
