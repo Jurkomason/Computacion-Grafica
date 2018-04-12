@@ -121,9 +121,8 @@ function BCrear_Callback(hObject, eventdata, handles)
                   dims = [1 50];
                   definput = {'',''};
                   seccion = inputdlg(prompt,title,dims,definput);
-                  seccion=str2num(cell2mat(seccion))
-                  viga.base=seccion(1,1);
-                  viga.altura=seccion(2,1);
+                  viga.base=str2double(cell2mat(seccion(1,1)));
+                  viga.altura=str2double(cell2mat(seccion(2,1)));
                   
                   %Dilatacion en Y y Z segun ancho y alto
                   set(g0,'Visible','Off');
@@ -136,14 +135,14 @@ function BCrear_Callback(hObject, eventdata, handles)
           dims = [1 50];
           definput = {'','',''};
           p1 = inputdlg(prompt,title,dims,definput);
-          p1=str2num(cell2mat(p1));
+          p1=[str2double(cell2mat(p1(1,1)));str2double(cell2mat(p1(2,1)));str2double(cell2mat(p1(3,1)))];
                     
           prompt = {'X','Y','Z'};
           title = 'Punto final';
           dims = [1 50];
           definput = {'','',''};
           p2 = inputdlg(prompt,title,dims,definput);
-          p2=str2num(cell2mat(p2));
+          p2=[str2double(cell2mat(p2(1,1)));str2double(cell2mat(p2(2,1)));str2double(cell2mat(p2(3,1)))];
 
           %Dilatacion en X segun p1 y p2
           set(g1,'Visible','Off');
@@ -155,13 +154,17 @@ function BCrear_Callback(hObject, eventdata, handles)
           dims = [1 50];
           definput = {'',''};
           orientacion = inputdlg(prompt,title,dims,definput);
-          orientacion=str2num(cell2mat(orientacion));
+          orientacion=[str2double(cell2mat(orientacion(1,1)));str2double(cell2mat(orientacion(2,1)))];
           
-          e1=(p2-p1)/norm(p2-p1);
-          p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
-          p1p3=(p3-p1);
-          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
-          e2=e2/norm(e2);
+          e1=(p2-p1)/norm(p2-p1)
+          p3=[p1(1,1);p1(2,1)+3;p1(3,1)]
+          p1p3=(p3-p1)
+          if e1(1,1)==0 && e1(3,1)==0
+              e2=[-1;0;0]
+          else
+              e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1)
+          end 
+          e2=e2/norm(e2)
           e3=cross(e1,e2);
           
           TR = [e1(1,1) e2(1,1) e3(1,1) p1(1,1)
@@ -175,7 +178,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           set(g2,'Visible','Off');
           angulo=atan(-orientacion(1,1)/orientacion(2,1));
           viga.matrizGeometrica=RotacionX(viga.matrizGeometrica,angulo); 
-         g3=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
+          g3=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
                     
           pause(1);
           set(g3,'Visible','Off')
@@ -310,23 +313,23 @@ function BCrear_Callback(hObject, eventdata, handles)
           title = 'Punto inicial';
           dims = [1 50];
           definput = {'','',''};
-          inicioPuerta = inputdlg(prompt,title,dims,definput);   
+          inicioPuerta = inputdlg(prompt,title,dims,definput);
+          inicioPuerta=[str2double(cell2mat(inicioPuerta(1,1)));str2double(cell2mat(inicioPuerta(2,1)));str2double(cell2mat(inicioPuerta(3,1)))];
           
           prompt = {'X','Y','Z'};
           title = 'Punto final';
           dims = [1 50];
           definput = {'','',''};
-          finPuerta = inputdlg(prompt,title,dims,definput); 
+          finPuerta = inputdlg(prompt,title,dims,definput);
+          finPuerta=[str2double(cell2mat(finPuerta(1,1)));str2double(cell2mat(finPuerta(2,1)));str2double(cell2mat(finPuerta(3,1)))];
           
           prompt = {'X'};
           title = 'Altura';
           dims = [1 50];
           definput = {''};
           altura = inputdlg(prompt,title,dims,definput);
+          altura=str2double(cell2mat(altura(1,1)));
           
-          inicioPuerta=str2num(cell2mat(inicioPuerta));
-          finPuerta=str2num(cell2mat(finPuerta));
-          altura=str2num(cell2mat(altura));
           dil=norm(finPuerta-inicioPuerta);
           puerta.matrizGeometrica=Dilatacion(puerta.matrizGeometrica,dil,dil,altura);
           
@@ -356,23 +359,23 @@ function BCrear_Callback(hObject, eventdata, handles)
           title = 'Punto inicial';
           dims = [1 50];
           definput = {'','',''};
-          inicioVentana = inputdlg(prompt,title,dims,definput);   
+          inicioVentana = inputdlg(prompt,title,dims,definput);
+          inicioVentana=[str2double(cell2mat(inicioVentana(1,1)));str2double(cell2mat(inicioVentana(2,1)));str2double(cell2mat(inicioVentana(3,1)))];
           
           prompt = {'X','Y','Z'};
           title = 'Punto final';
           dims = [1 50];
           definput = {'','',''};
           finVentana = inputdlg(prompt,title,dims,definput); 
+          finVentana=[str2double(cell2mat(finVentana(1,1)));str2double(cell2mat(finVentana(2,1)));str2double(cell2mat(finVentana(3,1)))];
           
           prompt = {'X'};
           title = 'Altura';
           dims = [1 50];
           definput = {''};
           altura = inputdlg(prompt,title,dims,definput); 
-          
-          inicioVentana=str2num(cell2mat(inicioVentana));
-          finVentana=str2num(cell2mat(finVentana));
-          altura=str2num(cell2mat(altura));
+
+          altura=str2double(cell2mat(altura(1,1)));
           dil=norm(finVentana-inicioVentana);
           ventana.matrizGeometrica=Dilatacion(ventana.matrizGeometrica,dil,dil,altura);
 %           puerta.matrizGeometrica=Dilatacion(puerta.matrizGeometrica,0,0,altura);

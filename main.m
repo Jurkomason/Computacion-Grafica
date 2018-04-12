@@ -159,7 +159,11 @@ function BCrear_Callback(hObject, eventdata, handles)
           e1=(p2-p1)/norm(p2-p1);
           p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
           p1p3=(p3-p1);
-          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          if e1(1,1)==0 && e1(3,1)==0
+              e2=[-1;0;0];
+          else
+              e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          end 
           e2=e2/norm(e2);
           e3=cross(e1,e2);
           
@@ -319,7 +323,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           finPuerta = inputdlg(prompt,title,dims,definput);
           finPuerta=[str2double(cell2mat(finPuerta(1,1)));str2double(cell2mat(finPuerta(2,1)));str2double(cell2mat(finPuerta(3,1)))];
           
-          prompt = {'X'};
+          prompt = {'Altura'};
           title = 'Altura';
           dims = [1 50];
           definput = {''};
@@ -336,7 +340,11 @@ function BCrear_Callback(hObject, eventdata, handles)
           e1=(finPuerta-inicioPuerta)/norm(finPuerta-inicioPuerta);
           p3=[inicioPuerta(1,1);inicioPuerta(2,1)+3;inicioPuerta(3,1)];
           p1p3=(p3-inicioPuerta);
-          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          if e1(1,1)==0 && e1(3,1)==0
+              e2=[-1;0;0];
+          else
+              e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          end 
           e2=e2/norm(e2);
           e3=cross(e1,e2);
           
@@ -365,7 +373,7 @@ function BCrear_Callback(hObject, eventdata, handles)
           finVentana = inputdlg(prompt,title,dims,definput); 
           finVentana=[str2double(cell2mat(finVentana(1,1)));str2double(cell2mat(finVentana(2,1)));str2double(cell2mat(finVentana(3,1)))];
           
-          prompt = {'X'};
+          prompt = {'Altura'};
           title = 'Altura';
           dims = [1 50];
           definput = {''};
@@ -382,7 +390,11 @@ function BCrear_Callback(hObject, eventdata, handles)
           e1=(finVentana-inicioVentana)/norm(finVentana-inicioVentana);
           p3=[inicioVentana(1,1);inicioVentana(2,1)+3;inicioVentana(3,1)];
           p1p3=(p3-inicioVentana);
-          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          if e1(1,1)==0 && e1(3,1)==0
+              e2=[-1;0;0];
+          else
+              e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+          end 
           e2=e2/norm(e2);
           e3=cross(e1,e2);
           
