@@ -115,15 +115,15 @@ function BCrear_Callback(hObject, eventdata, handles)
        
        case 'Viga'
           %Pregunta tipo de seccion
-          prompt = {'R: Rectangular, C: Circular'};
-          title = 'Tipo de seccion';
-          dims = [1 50];
-          definput = {''};
-          tipoSeccion = inputdlg(prompt,title,dims,definput);
-          tipoSeccion=cell2mat(tipoSeccion);
+%           prompt = {'R: Rectangular, C: Circular'};
+%           title = 'Tipo de seccion';
+%           dims = [1 50];
+%           definput = {''};
+%           tipoSeccion = inputdlg(prompt,title,dims,definput);
+          tipoSeccion='R';
           
           %Crea viga segun tipo de seccion
-          switch tipoSeccion(1,1)
+          switch tipoSeccion
               case 'C'
                   viga=Elemento1D('Circular');  
                   
@@ -160,21 +160,28 @@ function BCrear_Callback(hObject, eventdata, handles)
           definput = {'','',''};
           p2 = inputdlg(prompt,title,dims,definput);
           p2=[str2double(cell2mat(p2(1,1)));str2double(cell2mat(p2(2,1)));str2double(cell2mat(p2(3,1)))];
+          
+          prompt = {'X','Y','Z'};
+          title = 'Punto para orientacion';
+          dims = [1 50];
+          definput = {'','',''};
+          p3 = inputdlg(prompt,title,dims,definput);
+          p3=[str2double(cell2mat(p3(1,1)));str2double(cell2mat(p3(2,1)));str2double(cell2mat(p3(3,1)))];
 
           %Dilatacion en X segun p1 y p2
           set(g1,'Visible','Off');
           viga.matrizGeometrica=Dilatacion(viga.matrizGeometrica,norm(p1- p2),1,1); 
           g2=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
           
-          prompt = {'Y','Z'};
-          title = 'Orientacion';
-          dims = [1 50];
-          definput = {'',''};
-          orientacion = inputdlg(prompt,title,dims,definput);
-          orientacion=[str2double(cell2mat(orientacion(1,1)));str2double(cell2mat(orientacion(2,1)))];
+%           prompt = {'Y','Z'};
+%           title = 'Rotación YZ';
+%           dims = [1 50];
+%           definput = {'',''};
+%           orientacion = inputdlg(prompt,title,dims,definput);
+%           orientacion=[str2double(cell2mat(orientacion(1,1)));str2double(cell2mat(orientacion(2,1)))];
           
           e1=(p2-p1)/norm(p2-p1);
-          p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
+%           p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
           p1p3=(p3-p1);
           if e1(1,1)==0 && e1(3,1)==0
               e2=[-1;0;0];
@@ -193,12 +200,12 @@ function BCrear_Callback(hObject, eventdata, handles)
      
           %Rotacion segun orientacion
           set(g2,'Visible','Off');
-          angulo=atan(-orientacion(1,1)/orientacion(2,1));
-          viga.matrizGeometrica=RotacionX(viga.matrizGeometrica,angulo); 
-          g3=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
-                    
-          pause(1);
-          set(g3,'Visible','Off')
+%           angulo=atan(-orientacion(1,1)/orientacion(2,1));
+%           viga.matrizGeometrica=RotacionX(viga.matrizGeometrica,angulo); 
+%           g3=viga.graficar(viga.matrizGeometrica,viga.matrizTopologica,rgb('LimeGreen')); 
+%                     
+%           pause(1);
+%           set(g3,'Visible','Off')
            
           %Traslacion y rotacion final
           viga.matrizGeometrica=TR*viga.matrizGeometrica; 
