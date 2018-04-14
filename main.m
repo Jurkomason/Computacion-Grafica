@@ -183,11 +183,9 @@ function BCrear_Callback(hObject, eventdata, handles)
           e1=(p2-p1)/norm(p2-p1);
 %           p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
           p1p3=(p3-p1);
-          if e1(1,1)==0 && e1(3,1)==0
-              e2=[-1;0;0];
-          else
-              e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
-          end 
+
+          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+
           e2=e2/norm(e2);
           e3=cross(e1,e2);
           
