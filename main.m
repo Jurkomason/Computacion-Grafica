@@ -394,9 +394,9 @@ function BCrear_Callback(hObject, eventdata, handles)
           e2=e2/norm(e2);
           e3=cross(e1,e2);
           
-          TR = [e1(1,1) e3(1,1) e2(1,1)  inicioPuerta(1,1)
-                e1(2,1) e3(2,1) e2(2,1)  inicioPuerta(2,1)
-                e1(3,1) e3(3,1) e2(3,1)  inicioPuerta(3,1)
+          TR = [e1(1,1) e2(1,1) e3(1,1)  inicioPuerta(1,1)
+                e1(2,1) e2(2,1) e3(2,1)  inicioPuerta(2,1)
+                e1(3,1) e2(3,1) e3(3,1)  inicioPuerta(3,1)
                 0 0 0 1];
             
           dibujaTriedro(TR);
