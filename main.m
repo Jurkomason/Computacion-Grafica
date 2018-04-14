@@ -364,6 +364,13 @@ function BCrear_Callback(hObject, eventdata, handles)
           finPuerta = inputdlg(prompt,title,dims,definput);
           finPuerta=[str2double(cell2mat(finPuerta(1,1)));str2double(cell2mat(finPuerta(2,1)));str2double(cell2mat(finPuerta(3,1)))];
           
+          prompt = {'X','Y','Z'};
+          title = 'Punto para orientacion';
+          dims = [1 50];
+          definput = {'','',''};
+          p3 = inputdlg(prompt,title,dims,definput);
+          p3=[str2double(cell2mat(p3(1,1)));str2double(cell2mat(p3(2,1)));str2double(cell2mat(p3(3,1)))];
+
           prompt = {'Altura'};
           title = 'Altura';
           dims = [1 50];
@@ -379,20 +386,20 @@ function BCrear_Callback(hObject, eventdata, handles)
           set(pp0,'Visible','Off');
           
           e1=(finPuerta-inicioPuerta)/norm(finPuerta-inicioPuerta);
-          p3=[inicioPuerta(1,1);inicioPuerta(2,1)+3;inicioPuerta(3,1)];
+%         p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
           p1p3=(p3-inicioPuerta);
-          if e1(1,1)==0 && e1(3,1)==0
-              e2=[-1;0;0];
-          else
-              e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
-          end 
+
+          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+
           e2=e2/norm(e2);
           e3=cross(e1,e2);
           
-          TR = [e1(1,1) e2(1,1) e3(1,1) inicioPuerta(1,1)
-                e1(2,1) e2(2,1) e3(2,1) inicioPuerta(2,1)
-                e1(3,1) e2(3,1) e3(3,1) inicioPuerta(3,1)
+          TR = [e1(1,1) e3(1,1) e2(1,1)  inicioPuerta(1,1)
+                e1(2,1) e3(2,1) e2(2,1)  inicioPuerta(2,1)
+                e1(3,1) e3(3,1) e2(3,1)  inicioPuerta(3,1)
                 0 0 0 1];
+            
+          dibujaTriedro(TR);
           puerta.matrizGeometrica= TR*puerta.matrizGeometrica;
           pp1=puerta.graficar(puerta.matrizGeometrica,puerta.matrizTopologica);  
           pp1.FaceColor = rgb('Sienna');
@@ -415,6 +422,14 @@ function BCrear_Callback(hObject, eventdata, handles)
           finVentana = inputdlg(prompt,title,dims,definput); 
           finVentana=[str2double(cell2mat(finVentana(1,1)));str2double(cell2mat(finVentana(2,1)));str2double(cell2mat(finVentana(3,1)))];
           
+          prompt = {'X','Y','Z'};
+          title = 'Punto para orientacion';
+          dims = [1 50];
+          definput = {'','',''};
+          p3 = inputdlg(prompt,title,dims,definput);
+          p3=[str2double(cell2mat(p3(1,1)));str2double(cell2mat(p3(2,1)));str2double(cell2mat(p3(3,1)))];
+
+          
           prompt = {'Altura'};
           title = 'Altura';
           dims = [1 50];
@@ -429,21 +444,21 @@ function BCrear_Callback(hObject, eventdata, handles)
           pause(1);
           set(pv0,'Visible','Off');
           
-          e1=(finVentana-inicioVentana)/norm(finVentana-inicioVentana);
-          p3=[inicioVentana(1,1);inicioVentana(2,1)+3;inicioVentana(3,1)];
+           e1=(finVentana-inicioVentana)/norm(finVentana-inicioVentana);
+%         p3=[p1(1,1);p1(2,1)+3;p1(3,1)];
           p1p3=(p3-inicioVentana);
-          if e1(1,1)==0 && e1(3,1)==0
-              e2=[-1;0;0];
-          else
-              e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
-          end 
+
+          e2=(p1p3-(p1p3.'*e1)*e1)/norm(p1p3-(p1p3.'*e1)*e1);
+
           e2=e2/norm(e2);
           e3=cross(e1,e2);
           
-          TR = [e1(1,1) e2(1,1) e3(1,1) inicioVentana(1,1)
-                e1(2,1) e2(2,1) e3(2,1) inicioVentana(2,1)
-                e1(3,1) e2(3,1) e3(3,1) inicioVentana(3,1)
+          TR = [e1(1,1) e3(1,1) e2(1,1)  inicioVentana(1,1)
+                e1(2,1) e3(2,1) e2(2,1)  inicioVentana(2,1)
+                e1(3,1) e3(3,1) e2(3,1)  inicioVentana(3,1)
                 0 0 0 1];
+            
+          dibujaTriedro(TR);
           ventana.matrizGeometrica= TR*ventana.matrizGeometrica;
           pv1=ventana.graficar(ventana.matrizGeometrica,ventana.matrizTopologica);  
           pv1.FaceColor = rgb('SteelBlue');
